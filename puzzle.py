@@ -18,3 +18,20 @@ def get_legal_moves(state):
             moves.append((direction, tuple(new_state)))
 
     return moves
+
+def count_inversions(state):
+    """Count out-of-order tile pairs, ignoring the blank."""
+    tiles = [tile for tile in state if tile != 0]
+    inversions = 0
+
+    for i in range(len(tiles)):
+        for j in range(i + 1, len(tiles)):
+            if tiles[i] > tiles[j]:
+                inversions += 1
+
+    return inversions
+
+
+def is_solvable(initial, goal):
+    """For a 3×3 puzzle, both boards must have matching inversion parity."""
+    return count_inversions(initial) % 2 == count_inversions(goal) % 2
